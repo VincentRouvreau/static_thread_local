@@ -23,9 +23,17 @@ install(TARGETS get_local LIBRARY DESTINATION static_thread_local)
 nanobind_add_module(static_thread_local_ext NB_STATIC NOMINSIZE src/static_thread_local_ext.cc)
 target_link_libraries(static_thread_local_ext PRIVATE get_local)
 add_dependencies(static_thread_local_ext get_local)
+set_target_properties(static_thread_local_ext PROPERTIES
+  BUILD_RPATH "$ORIGIN"        # look next to the .so at runtime
+  INSTALL_RPATH "$ORIGIN"
+)
 install(TARGETS static_thread_local_ext LIBRARY DESTINATION static_thread_local)
 
 nanobind_add_module(hello_local_ext NB_STATIC NOMINSIZE src/hello_local_ext.cc)
 target_link_libraries(hello_local_ext PRIVATE get_local)
 add_dependencies(hello_local_ext get_local)
+set_target_properties(hello_local_ext PROPERTIES
+  BUILD_RPATH "$ORIGIN"        # look next to the .so at runtime
+  INSTALL_RPATH "$ORIGIN"
+)
 install(TARGETS hello_local_ext LIBRARY DESTINATION static_thread_local)

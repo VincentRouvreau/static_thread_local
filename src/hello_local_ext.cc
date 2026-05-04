@@ -1,6 +1,7 @@
 #include <iostream>
 #include <nanobind/nanobind.h>
 
+#define GET_LOCAL_IMPORT
 #include "get_local.h"
 
 NB_MODULE(hello_local_ext, m) {
