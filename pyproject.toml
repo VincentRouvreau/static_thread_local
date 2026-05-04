@@ -3,16 +3,15 @@ requires = ["scikit-build-core >=0.10", "nanobind >=1.3.2", "repairwheel"]
 build-backend = "scikit_build_core.build"
 
 [project]
-name = "nanobind-example"
+name = "static_thread_local"
 version = "0.0.1"
-description = "An example minimal project that compiles bindings using nanobind and scikit-build"
+description = "An example minimal project to experiment variable sharing values"
 readme = "README.md"
 requires-python = ">=3.8"
-authors = [{ name = "Wenzel Jakob", email = "wenzel.jakob@epfl.ch" }]
 classifiers = ["License :: OSI Approved :: BSD License"]
 
 [project.urls]
-Homepage = "https://github.com/VincentRouvreau/handson_nanobind/"
+Homepage = "https://github.com/VincentRouvreau/static_thread_local/"
 
 
 [tool.scikit-build]
@@ -24,17 +23,3 @@ build-dir = "build/{wheel_tag}"
 
 # Build stable ABI wheels for CPython 3.12+
 wheel.py-api = "cp312"
-
-[tool.cibuildwheel.linux]
-before-all = "yum -y update && yum -y install curl && curl -LO 'https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.gz' && tar xf boost_1_87_0.tar.gz && cd boost_1_87_0 && ./bootstrap.sh && ./b2 --with-filesystem install"
-
-[[tool.cibuildwheel.overrides]]
-select = "*-musllinux*"
-before-all = "apk update && apk add curl && curl -LO 'https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.gz' && tar xf boost_1_87_0.tar.gz && cd boost_1_87_0 && ./bootstrap.sh && ./b2 --with-filesystem install"
-
-[tool.cibuildwheel.macos]
-before-all = "brew update && brew install curl && curl -LO 'https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.gz' && tar xf boost_1_87_0.tar.gz && cd boost_1_87_0  && ./bootstrap.sh && sudo ./b2 cflags=-mmacosx-version-min=10.11 cxxflags=-mmacosx-version-min=10.11 mflags=-mmacosx-version-min=10.11 mmflags=-mmacosx-version-min=10.11 linkflags=-mmacosx-version-min=10.11 --with-filesystem install"
-
-[tool.cibuildwheel.windows]
-before-all = "set VCPKG_BUILD_TYPE=release && vcpkg install boost-filesystem"
-# --triplet x64-windows && Copy-Item -Path 'C:\\vcpkg\\installed\\x64-windows\\bin*.dll' -Destination '.\\'"

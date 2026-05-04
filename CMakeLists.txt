@@ -17,10 +17,15 @@ set (CMAKE_CXX_STANDARD 17)
 
 cmake_policy(SET CMP0167 NEW)
 
-add_library(get_local SHARED get_local.cc)
+add_library(get_local SHARED src/get_local.cc)
 install(TARGETS get_local LIBRARY DESTINATION static_thread_local)
 
-nanobind_add_module(static_thread_local_ext NB_SHARED src/static_thread_local_ext.cc)
+nanobind_add_module(static_thread_local_ext NB_STATIC NOMINSIZE src/static_thread_local_ext.cc)
 target_link_libraries(static_thread_local_ext PRIVATE get_local)
 add_dependencies(static_thread_local_ext get_local)
 install(TARGETS static_thread_local_ext LIBRARY DESTINATION static_thread_local)
+
+nanobind_add_module(hello_local_ext NB_STATIC NOMINSIZE src/hello_local_ext.cc)
+target_link_libraries(hello_local_ext PRIVATE get_local)
+add_dependencies(hello_local_ext get_local)
+install(TARGETS hello_local_ext LIBRARY DESTINATION static_thread_local)
